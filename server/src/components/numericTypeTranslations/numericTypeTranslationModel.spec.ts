@@ -13,5 +13,5 @@ test("has the correct tableName", () => {
 
 test("defines the idAttribute", () => {
 	const model = new NumericTypeTranslationModel();
-	expect(model.idAttribute).toEqual("id");
+	expect(model.idAttribute).toEqual(null);
 });

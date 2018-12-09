@@ -24,26 +24,4 @@ export default class LanguagesController {
 		return language;
 	}
 
-	public async getLanguageWithNumericRulesTables(id: string, tables: Array<string>): Promise<any> {
-		const language = await new LanguageModel()
-			.where("id", id)
-			.fetch({withRelated: tables})
-			.catch(handleDatabaseErrors);
-		return language;
-	}
-
-	public async getLanguageWithNumericRulesTablesTwo(id: string, tables: Array<string>): Promise<any> {
-		const language = await new LanguageModel()
-			.where("id", id)
-			.fetch()
-			.then((language) => language.load(tables))
-				/*
-				.then(function(language) {
-					return JSON.stringify(language);
-				})
-				*/
-			.catch(handleDatabaseErrors);
-		return language;
-	}
-
 }

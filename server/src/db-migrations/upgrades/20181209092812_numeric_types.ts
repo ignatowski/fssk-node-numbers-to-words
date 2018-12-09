@@ -3,7 +3,7 @@ import * as Knex from "knex";
 exports.up = function (knex: Knex): Promise<any> {
 	return Promise.resolve(knex.schema.createTableIfNotExists("numeric_types", (table) => {
 		table.integer("id").primary();
-		table.string("name");
+		table.string("name").unique().notNullable();
 	}));
 };
 

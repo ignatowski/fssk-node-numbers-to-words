@@ -11,19 +11,7 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
 		.catch((err: Error) => next(err));
 });
 
-router.get("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-
-	if (!Validator.isInt(req.params.id)) {
-		throw new Error("Invalid ID");
-	}
-
-	numericTypeTranslationsController.getNumericTypeTranslation(req.params.id)
-		.then((numericTypeTranslation) => res.json(numericTypeTranslation ? numericTypeTranslation.toJSON() : {}))
-		.catch((err: Error) => next(err));
-
-});
-
-router.get("/language/:languageId", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.get("/languages/:languageId", (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
 	if (!Validator.isInt(req.params.languageId)) {
 		throw new Error("Invalid languageId");
@@ -31,6 +19,22 @@ router.get("/language/:languageId", (req: express.Request, res: express.Response
 
 	numericTypeTranslationsController.getNumericTypeTranslationsByLanguage(req.params.languageId)
 		.then((numericTypeTranslations) => res.json(numericTypeTranslations ? numericTypeTranslations.toJSON() : []))
+		.catch((err: Error) => next(err));
+
+});
+
+router.get("/numericTypes/:numericTypeId/languages/:languageId/withTables", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+	if (!Validator.isInt(req.params.numericTypeId)) {
+		throw new Error("Invalid numericTypeId");
+	}
+
+	if (!Validator.isInt(req.params.languageId)) {
+		throw new Error("Invalid languageId");
+	}
+
+	numericTypeTranslationsController.getNumericTypeTranslationWithTables(req.params.numericTypeId, req.params.languageId)
+		.then((language) => res.json(language ? language.toJSON() : {}))
 		.catch((err: Error) => next(err));
 
 });

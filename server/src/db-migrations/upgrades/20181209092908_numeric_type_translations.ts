@@ -4,10 +4,10 @@ exports.up = function (knex: Knex): Promise<any> {
 	return Promise.resolve(knex.schema.createTableIfNotExists("numeric_type_translations", (table) => {
 		table.integer("numeric_type_id");
 		table.integer("language_id");
-		table.integer("order");
-		table.string("name");
+		table.integer("order").notNullable();
+		table.string("name").notNullable();
 		table.text("description");
-		table.json("tables");
+		table.json("tables").notNullable();
 		table.primary(["numeric_type_id", "language_id"]);
 		table.foreign("numeric_type_id", "numeric_type_translations_numeric_type_id_fkey")
 			.references("numeric_types.id")
