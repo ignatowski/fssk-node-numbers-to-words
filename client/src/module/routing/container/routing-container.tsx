@@ -6,6 +6,7 @@ import LoginContainer from "../../authentication/container/login-container";
 import RegisterContainer from "../../authentication/container/register-container";
 import TodoContainer from "../../todo/container/todo-container";
 import ProtectedRouteContainer from "./protected-route-container";
+import NumbersToWordsContainer from "../../numbers-to-words/container/numbers-to-words-container";
 
 
 export default class RoutingContainer extends React.Component<any> {
@@ -17,6 +18,7 @@ export default class RoutingContainer extends React.Component<any> {
 						<Route exact path="/login" component={LoginContainer} />
 						<Route exact path="/register" component={RegisterContainer} />
 						<ProtectedRouteContainer exact path="/" component={TodoContainer} />
+						<Route exact path="/numbersToWords" component={NumbersToWordsContainer} />
 						<Route component={pageNotFound} />
 					</Switch>
 				</Router>
