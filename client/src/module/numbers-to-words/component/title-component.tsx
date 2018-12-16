@@ -14,7 +14,7 @@ export default class TitleComponent extends React.Component<any> {
 			},
 			{
 				languageId: 2,
-				name: "Numeros a Palabras"
+				name: "Números a Palabras"
 			}
 		];
 		const title = titles.filter(title => {
@@ -24,7 +24,7 @@ export default class TitleComponent extends React.Component<any> {
 	}
 
 	public render() {
-		const title = this.getTitle(this.props.currentLanguageId);
+		const title = this.getTitle(this.props.language.id);
 		document.title = title;
 		return <div><h1>{title}</h1></div>;
 	}

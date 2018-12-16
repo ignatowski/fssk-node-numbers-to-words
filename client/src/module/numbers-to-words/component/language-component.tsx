@@ -12,14 +12,16 @@ export default class LanguageComponent extends React.Component<any> {
 
 	@autobind
 	private handleChange(event: any) {
-		const currentLanguageId = parseInt(event.target.value);
-		this.props.onChange(currentLanguageId);
+		const newLangaugeId = parseInt(event.target.value);
+		const newLanguage = this.props.languages.filter((language: LanguageModel) => {
+			return language.id === newLangaugeId;
+		})[0];
+		this.props.onChange(newLanguage);
 	}
 	
 
 	public render() {
 
-		console.log(this.props.languages);
 		const languages = this.props.languages.map((language: LanguageModel) => {
 			return (
 				<option key={language.id} value={language.id}>
@@ -27,15 +29,15 @@ export default class LanguageComponent extends React.Component<any> {
 				</option>
 			);
 		});
-		console.log(languages);
 
 		return (
 			<div>
-				<select id="language-selector" onChange={this.handleChange} value={this.props.currentLanguageId} >
+				<select id="language-selector" onChange={this.handleChange} value={this.props.language.id} >
 					{languages}
 				</select>
 			</div>
 		);
+
 	}
 
 }
