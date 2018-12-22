@@ -8,11 +8,18 @@ import TitleComponent from "../component/title-component";
 import NumericTypeTranslationComponent from "../component/numeric-type-translation-component";
 import NumericTypeTranslationStore from "../store/numeric-type-translation-store";
 import NumericTypeTranslationModel from "../model/numeric-type-translation-model";
+import NumberInputComponent from "../component/number-input-component";
+import {validateNumber} from "../../../util/number-validation";
+import NumberToWordConverter from "../../../util/number-to-word-converter";
+import WordOutputComponent from "../component/word-output-component";
 
 interface INumbersToWordsContainerState {
 	language: LanguageModel;
 	numericTypeTranslations: Array<NumericTypeTranslationModel>;
 	numericTypeTranslationWithTables: NumericTypeTranslationModel;
+	currentNumber: string;
+	numberError: string;
+	currentWord: string;
 }
 
 @observer
@@ -31,14 +38,22 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		this.state = {
 			language: new LanguageModel(LanguageModel.prototype),
 			numericTypeTranslations: new Array<NumericTypeTranslationModel>(),
-			numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype)
+			numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype),
+			currentNumber: "",
+			numberError: "",
+			currentWord: ""
 		}
 	}
 
 	@autobind
 	private setLanguage(newLanguage: LanguageModel) {
 		this.setState(
-			{ language: newLanguage },
+			{
+				language: newLanguage,
+				currentNumber: "",
+				numberError: "",
+				currentWord: ""
+			},
 			this.setNumericTypeTranslations
 		);
 	}
@@ -49,7 +64,12 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 			.loadNumericTypeTranslations(this.state.language.id)
 			.then(() => {
 				this.setState(
-					{ numericTypeTranslations: NumericTypeTranslationStore.numericTypeTranslations },
+					{
+						numericTypeTranslations: NumericTypeTranslationStore.numericTypeTranslations,
+						currentNumber: "",
+						numberError: "",
+						currentWord: ""
+					},
 					() => {
 						if (this.state.numericTypeTranslations.length > 0) {
 							this.setNumericTypeTranslationWithTables(this.state.numericTypeTranslations[0].numericTypeId);
@@ -66,14 +86,52 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		NumericTypeTranslationStore
 			.loadNumericTypeTranslationWithTables(numericTypeId, this.state.language.id)
 			.then(() => {
-				this.setState({ numericTypeTranslationWithTables: NumericTypeTranslationStore.numericTypeTranslationWithTables[0] });
+				this.setState(
+					{
+						numericTypeTranslationWithTables: NumericTypeTranslationStore.numericTypeTranslationWithTables[0],
+						currentNumber: "",
+						numberError: "",
+						currentWord: ""
+					}
+				);
 			});
 	}
 
 	@autobind
 	private unsetNumericTypeTranslationWithTables() {
 		NumericTypeTranslationStore.unsetNumericTypeTranslationWithTables();
-		this.setState({ numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype) });
+		this.setState(
+			{
+				numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype),
+				currentNumber: "",
+				numberError: "",
+				currentWord: ""
+			}
+		);
+	}
+
+	@autobind
+	private setCurrentNumber(newNumber: string) {
+		this.setState(
+			{
+				currentNumber: newNumber,
+				numberError: validateNumber(newNumber),
+				currentWord: ""
+			},
+			this.setCurrentWord
+		);
+	}
+
+	@autobind
+	private setCurrentWord() {
+		if (!this.state.numberError) {
+			let numberToWordConverter = new NumberToWordConverter(this.state.numericTypeTranslationWithTables);
+			this.setState(
+				{
+					currentWord: numberToWordConverter.convertNumberToWord(this.state.currentNumber)
+				}
+			);
+		}
 	}
 
 	public isEmpty(obj: any) {
@@ -107,10 +165,12 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 			titleComponent = <TitleComponent language={this.state.language} />;
 		}
 
-		if (this.state) {
-			console.log(this.state);
-		}
+		//if (this.state) {
+			//console.log(this.state);
+		//}
 		let numericTypeTranslationComponent = null;
+		let numberInputComponent = null;
+		let wordOutputComponent = null;
 		if (this.state && this.state.numericTypeTranslations && this.state.numericTypeTranslationWithTables && this.state.numericTypeTranslations.length > 0) {
 			numericTypeTranslationComponent =
 				<NumericTypeTranslationComponent
@@ -118,6 +178,15 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 					numericTypeTranslations={this.state.numericTypeTranslations}
 					numericTypeTranslationWithTables={this.state.numericTypeTranslationWithTables}
 				/>;
+			numberInputComponent = 
+				<NumberInputComponent
+					onChange={this.setCurrentNumber}
+					numberError={this.state.numberError}
+					currentNumber={this.state.currentNumber}
+				/>;
+			if (this.state.currentWord) {
+				wordOutputComponent = <WordOutputComponent currentWord={this.state.currentWord} />;
+			}
 		}
 
 		return (
@@ -125,6 +194,8 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 				{languageComponent}
 				{titleComponent}
 				{numericTypeTranslationComponent}
+				{numberInputComponent}
+				{wordOutputComponent}
 			</div>
 		);
 

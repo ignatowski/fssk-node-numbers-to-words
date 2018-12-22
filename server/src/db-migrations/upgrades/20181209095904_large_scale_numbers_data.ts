@@ -2,6 +2,7 @@ import * as Knex from "knex";
 
 exports.up = function (knex: Knex): Promise<any> {
 	return Promise.resolve(knex("large_scale_numbers").insert([
+		{language_id: 2, exponent: 3, singular: "mil", plural: null},
 		{language_id: 2, exponent: 6, singular: "millón", plural: "millones"},
 		{language_id: 2, exponent: 12, singular: "billón", plural: "billones"},
 		{language_id: 2, exponent: 18, singular: "trillón", plural: "trillones"},

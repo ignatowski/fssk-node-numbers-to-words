@@ -8,7 +8,7 @@ exports.up = function (knex: Knex): Promise<any> {
 			order: 1,
 			name: "números (escala larga)",
 			description: 'Los números de la escala larga se agrupan en cifras de seis. Así que empiezan con unidad, decenas, centenas, unidad de millar, decenas de millar y centenas de millar. Desde ahí se repiten con cada grupo de seis creciendo a millón, billón, trillón, etc. <a href="https://es.wikipedia.org/wiki/Escalas_numéricas_larga_y_corta" target="_blank">Escalas numéricas larga y corta</a>',
-			tables: JSON.stringify(["ones", "tens", "thousands", "large_scale_numbers"])
+			tables: JSON.stringify(["ones", "tens", "hundreds", "thousands", "large_scale_numbers"])
 		}
 	]));
 };
