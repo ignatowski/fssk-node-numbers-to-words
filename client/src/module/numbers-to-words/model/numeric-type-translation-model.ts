@@ -1,5 +1,9 @@
 import {action, observable, runInAction} from "mobx";
 import OneModel from "./one-model";
+import TenModel from "./ten-model";
+import HundredModel from "./hundred-model";
+import ThousandModel from "./thousand-model";
+import LargeScaleNumberModel from "./large-scale-number-model";
 
 export interface INumericTypeTranslationModelProps {
 	numeric_type_id?: number;
@@ -9,10 +13,10 @@ export interface INumericTypeTranslationModelProps {
 	description?: string;
 	tables?: Array<string>;
 	ones?: Array<OneModel>;
-	tens?: any;
-	hundreds?: any;
-	thousands?: any;
-	large_scale_numbers?: any;
+	tens?: Array<TenModel>;
+	hundreds?: Array<HundredModel>;
+	thousands?: Array<ThousandModel>;
+	large_scale_numbers?: Array<LargeScaleNumberModel>;
 }
 
 export default class NumericTypeTranslationModel {
@@ -24,10 +28,10 @@ export default class NumericTypeTranslationModel {
 	@observable public description: string;
 	@observable public tables: Array<string>;
 	@observable public ones: Array<OneModel>;
-	@observable public tens: any;
-	@observable public hundreds: any;
-	@observable public thousands: any;
-	@observable public largeScaleNumbers: any;
+	@observable public tens: Array<TenModel>;
+	@observable public hundreds: Array<HundredModel>;
+	@observable public thousands: Array<ThousandModel>;
+	@observable public largeScaleNumbers: Array<LargeScaleNumberModel>;
 
 	constructor(props: INumericTypeTranslationModelProps) {
 		this.setProperties(props);

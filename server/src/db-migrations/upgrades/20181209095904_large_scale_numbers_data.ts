@@ -2,7 +2,6 @@ import * as Knex from "knex";
 
 exports.up = function (knex: Knex): Promise<any> {
 	return Promise.resolve(knex("large_scale_numbers").insert([
-		{language_id: 2, exponent: 3, singular: "mil", plural: null},
 		{language_id: 2, exponent: 6, singular: "millón", plural: "millones"},
 		{language_id: 2, exponent: 12, singular: "billón", plural: "billones"},
 		{language_id: 2, exponent: 18, singular: "trillón", plural: "trillones"},
@@ -16,6 +15,13 @@ exports.up = function (knex: Knex): Promise<any> {
 		{language_id: 2, exponent: 66, singular: "undecillón", plural: "undecillones"},
 		{language_id: 2, exponent: 72, singular: "duodecillón", plural: "duodecillones"},
 		{language_id: 2, exponent: 78, singular: "tredecillón", plural: "tredecillones"},
+		{language_id: 2, exponent: 84, singular: "cuatordecillón", plural: "cuatordecillones"},
+		{language_id: 2, exponent: 90, singular: "quindecillón", plural: "quindecillones"},
+		{language_id: 2, exponent: 96, singular: "sexdecillón", plural: "sexdecillones"},
+		{language_id: 2, exponent: 102, singular: "septendecillón", plural: "septendecillones"},
+		{language_id: 2, exponent: 108, singular: "octodecillón", plural: "octodecillones"},
+		{language_id: 2, exponent: 114, singular: "novendecillón", plural: "novendecillones"},
+		{language_id: 2, exponent: 120, singular: "vigintillón", plural: "vigintillones"},
 	]));
 };
 

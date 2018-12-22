@@ -30,6 +30,7 @@ export default class NumberInputComponent extends React.Component<any> {
 					onChange={this.handleChange}
 					errorClass="dsk-Admin-form__error"
 					autoComplete="off"
+					maxLength={167}
 				/>
 			</div>
 		);

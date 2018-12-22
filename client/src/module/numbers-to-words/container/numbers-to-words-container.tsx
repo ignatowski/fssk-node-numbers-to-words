@@ -125,10 +125,10 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 	@autobind
 	private setCurrentWord() {
 		if (!this.state.numberError) {
-			let numberToWordConverter = new NumberToWordConverter(this.state.numericTypeTranslationWithTables);
+			let numberToWordConverter = new NumberToWordConverter(this.state.numericTypeTranslationWithTables, this.state.currentNumber);
 			this.setState(
 				{
-					currentWord: numberToWordConverter.convertNumberToWord(this.state.currentNumber)
+					currentWord: numberToWordConverter.convertNumberToWord()
 				}
 			);
 		}
