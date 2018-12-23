@@ -27,11 +27,21 @@ export default class NumericTypeTranslationComponent extends React.Component<any
 		});
 
 		return (
-			<div>
-				<select id="numericTypeTranslation-selector" onChange={this.handleChange} value={this.props.numericTypeTranslationWithTables.numericTypeId} >
-					{numericTypeTranslations}
-				</select>
-				<p dangerouslySetInnerHTML={{ __html: this.props.numericTypeTranslationWithTables.description }}></p>
+			<div className="numeric-type-translation-component">
+				<span>
+					<span>
+						<span>
+							<span>
+								<select onChange={this.handleChange} value={this.props.numericTypeTranslationWithTables.numericTypeId} >
+									{numericTypeTranslations}
+								</select>
+							</span>
+						</span>
+					</span>
+				</span>
+				<div className="description">
+					<p dangerouslySetInnerHTML={{ __html: this.props.numericTypeTranslationWithTables.description }}></p>
+				</div>
 			</div>
 		);
 

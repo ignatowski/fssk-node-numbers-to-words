@@ -20,7 +20,7 @@ export default class NumberInputComponent extends React.Component<any> {
 	public render() {
 
 		return (
-			<div>
+			<div className="number-input-component">
 				<FormInput
 					type="text"
 					name="number"

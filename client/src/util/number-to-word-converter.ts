@@ -1,4 +1,5 @@
 import NumericTypeTranslationModel from "../module/numbers-to-words/model/numeric-type-translation-model";
+import WordModel from "../module/numbers-to-words/model/word-model";
 import OneModel from "../module/numbers-to-words/model/one-model";
 import TenModel from "../module/numbers-to-words/model/ten-model";
 import HundredModel from "../module/numbers-to-words/model/hundred-model";
@@ -9,15 +10,15 @@ export default class numberToWordConverter {
 
 	numericTypeTranslationWithTables: NumericTypeTranslationModel;
 	currentNumber: string;
-	newWord: string;
+	newWord: Array<WordModel>;
 
 	constructor(numericTypeTranslationWithTables: NumericTypeTranslationModel, currentNumber: string) {
 		this.numericTypeTranslationWithTables = numericTypeTranslationWithTables;
 		this.currentNumber = currentNumber;
-		this.newWord = '';
+		this.newWord = [];
 	}
 
-	public convertNumberToWord(): string {
+	public convertNumberToWord(): Array<WordModel> {
 
 		switch (this.numericTypeTranslationWithTables.numericTypeId) {
 			case 1: //short scale numbers
@@ -146,19 +147,10 @@ export default class numberToWordConverter {
 			}
 			firstNewWord = firstNewWord + ' ' + this.calculateThousand('1000');
 		}
-		
-		//add new word to new word
-		if (firstNewWord !== '') {
-			if (this.newWord === '') {
-				this.newWord = firstNewWord
-			} else {
-				this.newWord = this.newWord + ' ' + firstNewWord;
-			}
-		}
 
 		//check if "zero" is possible
 		let allowZero = false;
-		if (remainingInteger === '' && this.newWord === '' && firstNewWord === '') {
+		if (remainingInteger === '' && this.newWord === [] && firstNewWord === '') {
 			allowZero = true;
 		}
 
@@ -177,13 +169,16 @@ export default class numberToWordConverter {
 		}
 
 		//add new word to new word
-		if (secondNewWord !== '') {
-			if (this.newWord === '') {
-				this.newWord = secondNewWord
-			} else {
-				this.newWord = this.newWord + ' ' + secondNewWord;
+		let newWord = '';
+		if (firstNewWord !== '') {
+			newWord = firstNewWord;
+			if (secondNewWord !== '') {
+				newWord = newWord + ' ' + secondNewWord;
 			}
+		} else if (secondNewWord !== '') {
+			newWord = secondNewWord;
 		}
+		this.newWord.push(new WordModel({word: newWord, number: sixDigits}));
 
 		//while the number of digits of remaining integers is greater than or equeal to 6 keep recursing
 		if (remainingInteger.length > 6) {

@@ -26,7 +26,7 @@ export default class TitleComponent extends React.Component<any> {
 	public render() {
 		const title = this.getTitle(this.props.language.id);
 		document.title = title;
-		return <div><h1>{title}</h1></div>;
+		return <div className="title-component"><h1>{title}</h1></div>;
 	}
 
 }

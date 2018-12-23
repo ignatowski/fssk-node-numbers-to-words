@@ -31,10 +31,12 @@ export default class LanguageComponent extends React.Component<any> {
 		});
 
 		return (
-			<div>
-				<select id="language-selector" onChange={this.handleChange} value={this.props.language.id} >
-					{languages}
-				</select>
+			<div className="language-component">
+				<p>Language: 
+					<select onChange={this.handleChange} value={this.props.language.id} >
+						{languages}
+					</select>
+				</p>
 			</div>
 		);
 

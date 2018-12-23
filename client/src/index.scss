@@ -1,1 +1,295 @@
 @import "~bootstrap/scss/bootstrap";
+
+html {
+	height: 100vh;
+}
+
+body {
+	min-height: 100vh;
+}
+
+#root {
+	min-height: 100vh;
+}
+
+
+
+
+
+//$spanish-flag-red: #AA151B;
+//$spanish-flag-yellow: #F1BF00;
+
+$spanish-flag-red: #AD1519;
+$spanish-flag-yellow: #FABD00;
+
+.language-id-2.numbers-to-words-container {
+	background-color: $spanish-flag-red;
+}
+
+.language-id-2 {
+
+	a, a:hover {
+		color: $spanish-flag-red;
+	}
+
+	.language-component {
+
+		color: white;
+		@media (min-width: 0px) {
+			height: 30px;
+			text-align: center;
+			background-color: $spanish-flag-yellow;
+			padding-top: 10px;
+		}
+		@media (min-width: 576px) {
+			height: 0px;
+			text-align: inherit;
+			background-color: none;
+			padding-top: 0px;
+		}
+
+		p {
+			@media (min-width: 0px) {
+				//float: right;
+				//margin: 5px 5px 0px 0px;
+			}
+			@media (min-width: 576px) {
+				float: right;
+				margin: 5px 5px 0px 0px;
+			}
+		}
+	
+		select {
+			margin-left: 5px;
+			outline-color: $spanish-flag-red;
+			border: none;
+			background-color: $spanish-flag-red;
+			color: white;
+		}
+
+		//select:active, select:hover, select:focus {
+			//outline-color: $spanish-flag-yellow;
+			//border: 1px solid $spanish-flag-yellow;
+		//}
+
+	}
+
+	
+
+	.container {
+
+		background-color: $spanish-flag-yellow;
+		text-align: center;
+		min-height: 100vh;
+		@media (min-width: 1200px) {
+			max-width: 50%;
+		}
+		@media (min-width: 992px) {
+			max-width: 50%;
+		}
+		@media (min-width: 768px) {
+			max-width: 50%;
+		}
+		@media (min-width: 576px) {
+			max-width: 50%;
+		}
+
+		h1 {
+			padding: 10px 0px;
+			font-size: 3rem;
+		}
+
+	}
+
+	.numeric-type-translation-component {
+
+		span {
+			padding: 13px 2px 9px 2px;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 1%);
+		}
+
+		span span {
+			padding: 11px 2px 9px 2px;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 2%);
+		}
+
+		span span span{
+			padding: 9px 2px 7px 2px;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 3%);
+		}
+
+		span span span span {
+			padding: 7px 2px 5px 2px;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+		}
+
+		select {
+			margin-bottom: 10px;
+			font-size: 1.2rem;
+			outline-color: none;
+			border: none;
+			//min-width: 30%;
+			//text-align: center;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+		}
+
+		select:active, select:hover, select:focus {
+			outline-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+			//border: 1px solid $spanish-flag-red;
+		}
+
+		//option, option:hover, option:focus, option:active {
+			//background-color: $spanish-flag-red;
+			//border: 1px solid $spanish-flag-red;
+		//}
+
+		.description {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+	}
+
+	.number-input-component {
+
+		input {
+			width: 80%;
+			text-align: center;
+			font-size: 1.5rem;
+		}
+
+		input:active, input:hover, input:focus {
+			outline-color: $spanish-flag-red;
+			//border: 1px solid $spanish-flag-red;
+		}
+
+		.dsk-Admin-form__error {
+			color: $spanish-flag-red;
+		}
+
+	}
+
+	.word-output-component {
+		padding-bottom: 15px;
+	}
+
+}
+
+
+
+
+
+//$american-flag-red: #B22234;
+//$american-flag-white: #FFFFFF;
+//$american-flag-blue: #3C3B6E;
+
+$american-flag-red: #9B1C2C;
+$american-flag-white: #E3DED4;
+$american-flag-blue: #33335F;
+
+.language-id-1.numbers-to-words-container {
+	background-color: $american-flag-red;
+}
+
+.language-id-1 {
+
+	color: $american-flag-blue;
+
+	a, a:hover {
+		color: $american-flag-red;
+	}
+
+	.language-component {
+		@media (min-width: 0px) {
+			height: 30px;
+			text-align: center;
+			background-color: $american-flag-white;
+			padding-top: 10px;
+		}
+		@media (min-width: 576px) {
+			height: 0px;
+			text-align: inherit;
+			background-color: none;
+			padding-top: 0px;
+		}
+	}
+
+	.language-component p {
+		@media (min-width: 0px) {
+			//float: right;
+			//margin: 5px 5px 0px 0px;
+		}
+		@media (min-width: 576px) {
+			float: right;
+			margin: 5px 5px 0px 0px;
+		}
+	}
+
+	.language-component select {
+		margin-left: 5px;
+	}
+
+	.container {
+
+		background-color: $american-flag-white;
+		text-align: center;
+		min-height: 100vh;
+		@media (min-width: 1200px) {
+			max-width: 50%;
+		}
+		@media (min-width: 992px) {
+			max-width: 50%;
+		}
+		@media (min-width: 768px) {
+			max-width: 50%;
+		}
+		@media (min-width: 576px) {
+			max-width: 50%;
+		}
+
+		h1 {
+			padding: 10px 0px;
+			font-size: 3rem;
+		}
+
+	}
+
+	.numeric-type-translation-component {
+
+		select {
+			margin-bottom: 10px;
+			font-size: 1.2rem;
+			border: none;
+			//min-width: 30%;
+			//text-align: center;
+			background-color: lighten($color: $american-flag-white, $amount: 5%);
+		}
+
+		.description {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+	}
+
+	.number-input-component {
+
+		input {
+			width: 80%;
+			text-align: center;
+			font-size: 1.5rem;
+		}
+
+		.dsk-Admin-form__error {
+			color: $american-flag-red;
+		}
+
+	}
+
+	.word-output-component {
+		padding-bottom: 15px;
+	}
+
+}

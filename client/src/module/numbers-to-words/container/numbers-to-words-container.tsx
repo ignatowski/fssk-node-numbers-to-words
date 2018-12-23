@@ -8,6 +8,7 @@ import TitleComponent from "../component/title-component";
 import NumericTypeTranslationComponent from "../component/numeric-type-translation-component";
 import NumericTypeTranslationStore from "../store/numeric-type-translation-store";
 import NumericTypeTranslationModel from "../model/numeric-type-translation-model";
+import WordModel from "../model/word-model";
 import NumberInputComponent from "../component/number-input-component";
 import {validateNumber} from "../../../util/number-validation";
 import NumberToWordConverter from "../../../util/number-to-word-converter";
@@ -19,7 +20,7 @@ interface INumbersToWordsContainerState {
 	numericTypeTranslationWithTables: NumericTypeTranslationModel;
 	currentNumber: string;
 	numberError: string;
-	currentWord: string;
+	currentWord: Array<WordModel>;
 }
 
 @observer
@@ -29,7 +30,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		LanguageStore
 			.loadLanguages()
 			.then(() => {
-				this.setLanguage(LanguageStore.languages[0]);
+				this.setLanguage(LanguageStore.languages[1]);
 			});
 	}
 
@@ -41,7 +42,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 			numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype),
 			currentNumber: "",
 			numberError: "",
-			currentWord: ""
+			currentWord: []
 		}
 	}
 
@@ -52,7 +53,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 				language: newLanguage,
 				currentNumber: "",
 				numberError: "",
-				currentWord: ""
+				currentWord: []
 			},
 			this.setNumericTypeTranslations
 		);
@@ -68,7 +69,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 						numericTypeTranslations: NumericTypeTranslationStore.numericTypeTranslations,
 						currentNumber: "",
 						numberError: "",
-						currentWord: ""
+						currentWord: []
 					},
 					() => {
 						if (this.state.numericTypeTranslations.length > 0) {
@@ -91,7 +92,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 						numericTypeTranslationWithTables: NumericTypeTranslationStore.numericTypeTranslationWithTables[0],
 						currentNumber: "",
 						numberError: "",
-						currentWord: ""
+						currentWord: []
 					}
 				);
 			});
@@ -105,7 +106,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 				numericTypeTranslationWithTables: new NumericTypeTranslationModel(NumericTypeTranslationModel.prototype),
 				currentNumber: "",
 				numberError: "",
-				currentWord: ""
+				currentWord: []
 			}
 		);
 	}
@@ -116,7 +117,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 			{
 				currentNumber: newNumber,
 				numberError: validateNumber(newNumber),
-				currentWord: ""
+				currentWord: []
 			},
 			this.setCurrentWord
 		);
@@ -150,7 +151,9 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		//console.log(NumericTypeTranslationStore);
 
 		let languageComponent = null;
-		if (this.state && this.state.language && LanguageStore.languages.length > 0) {
+		let languageId = '';
+		if (this.state && this.state.language && !this.isEmpty(this.state.language) && LanguageStore.languages.length > 0) {
+			languageId = this.state.language.id.toString();
 			languageComponent =
 				<LanguageComponent
 					onChange={this.setLanguage}
@@ -190,12 +193,14 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		}
 
 		return (
-			<div className="container">
+			<div className={"language-id-" + languageId + " numbers-to-words-container"}>
 				{languageComponent}
-				{titleComponent}
-				{numericTypeTranslationComponent}
-				{numberInputComponent}
-				{wordOutputComponent}
+				<div className="container">
+					{titleComponent}
+					{numericTypeTranslationComponent}
+					{numberInputComponent}
+					{wordOutputComponent}
+				</div>
 			</div>
 		);
 
