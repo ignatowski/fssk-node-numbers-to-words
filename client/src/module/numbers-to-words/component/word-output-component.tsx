@@ -4,7 +4,7 @@ import WordModel from "../model/word-model";
 import WordComponent from "./word-component";
 
 @observer
-export default class NumberInputComponent extends React.Component<any> {
+export default class WordOutputComponent extends React.Component<any> {
 
 	constructor(props: any) {
 		super(props);
@@ -14,9 +14,9 @@ export default class NumberInputComponent extends React.Component<any> {
 
 		const words = this.props.currentWord.filter((word: WordModel) => {
 			return word.word !== '';
-		}).map((word: WordModel) => {
+		}).map((word: WordModel, index: number) => {
 			return (
-				<WordComponent word={word} />
+				<WordComponent key={"word-component-key-index-" + index} word={word} />
 			);
 		});
 

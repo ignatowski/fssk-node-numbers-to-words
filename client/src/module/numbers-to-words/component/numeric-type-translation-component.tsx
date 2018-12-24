@@ -20,7 +20,7 @@ export default class NumericTypeTranslationComponent extends React.Component<any
 
 		const numericTypeTranslations = this.props.numericTypeTranslations.map((numericTypeTranslation: NumericTypeTranslationModel) => {
 			return (
-				<option key={numericTypeTranslation.numericTypeId} value={numericTypeTranslation.numericTypeId}>
+				<option key={"numeric-type-translation-component-key-numeric-type-translation-id-" + numericTypeTranslation.numericTypeId} value={numericTypeTranslation.numericTypeId}>
 					{numericTypeTranslation.name}
 				</option>
 			);

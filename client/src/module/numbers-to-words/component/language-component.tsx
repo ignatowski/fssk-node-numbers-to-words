@@ -24,15 +24,27 @@ export default class LanguageComponent extends React.Component<any> {
 
 		const languages = this.props.languages.map((language: LanguageModel) => {
 			return (
-				<option key={language.id} value={language.id}>
+				<option key={"language-component-key-language-id" + language.id} value={language.id}>
 					{language.name}
 				</option>
 			);
 		});
 
+		let languageWord = '';
+		switch (this.props.language.id) {
+			case 1:
+				languageWord = 'Language: ';
+				break;
+			case 2:
+				languageWord = 'Lengua: ';
+				break;
+			default:
+				break;
+		}
+
 		return (
 			<div className="language-component">
-				<p>Language: 
+				<p>{languageWord}
 					<select onChange={this.handleChange} value={this.props.language.id} >
 						{languages}
 					</select>

@@ -1,10 +1,13 @@
 import NumericTypeTranslationModel from "../module/numbers-to-words/model/numeric-type-translation-model";
 import WordModel from "../module/numbers-to-words/model/word-model";
+import {validateNumber} from "./number-validation";
+import {getInteger} from "./number-util";
 import OneModel from "../module/numbers-to-words/model/one-model";
 import TenModel from "../module/numbers-to-words/model/ten-model";
 import HundredModel from "../module/numbers-to-words/model/hundred-model";
 import ThousandModel from "../module/numbers-to-words/model/thousand-model";
-import LargeScaleNumberModel from "../module/numbers-to-words/model/large-scale-number-model";
+import ShortScaleNumberModel from "../module/numbers-to-words/model/short-scale-number-model";
+import LongScaleNumberModel from "../module/numbers-to-words/model/long-scale-number-model";
 
 export default class numberToWordConverter {
 
@@ -20,11 +23,20 @@ export default class numberToWordConverter {
 
 	public convertNumberToWord(): Array<WordModel> {
 
+		//todo: validate the number? it's already validated before this class is called?
+		//todo: make sure the number has at least one digit?
+		//todo: does this validation handle empty string and string without digits?
+		let $numberError = validateNumber(this.currentNumber, this.numericTypeTranslationWithTables.numericTypeId, this.numericTypeTranslationWithTables.languageId);
+		if ($numberError !== '') {
+			return this.newWord;
+		}
+
 		switch (this.numericTypeTranslationWithTables.numericTypeId) {
 			case 1: //short scale numbers
+				this.calculateShortScaleNumber();
 				break;
-			case 2: //large scale numbers
-				this.calculateLargeScaleNumber();
+			case 2: //long scale numbers
+				this.calculateLongScaleNumber();
 				break;
 			default:
 				break;
@@ -34,52 +46,101 @@ export default class numberToWordConverter {
 
 	}
 
-	private calculateLargeScaleNumber() {
-
-		//todo: validate the number? it's already validated before this class is called?
-		//todo: make sure the number has at least one digit
-
-
-		//get the decimal character
-		let decimalCharacter = '';
-		switch (this.numericTypeTranslationWithTables.languageId) {
-			case 1:
-				decimalCharacter = '.';
-				break;
-			case 2:
-				decimalCharacter = ',';
-				break;
-			default:
-				decimalCharacter = '.';
-		}
-
-		//get the index of the decimal character
-		let decimalPosition = this.currentNumber.indexOf(decimalCharacter);
+	private calculateShortScaleNumber(): string {
 
 		//place holder for remaining integer
-		let remainingInteger = '';
+		let remainingInteger = getInteger(this.currentNumber, this.numericTypeTranslationWithTables.languageId);
 
-		if (decimalPosition === -1) {
+		//calculate how many 0's to add to the front of the number so that the number of digits is divisible by 3
+		let remainder = remainingInteger.length % 3;
 
-			//number does not have a decimal character
-			//entire number is integer
-			remainingInteger = this.sanitizeInteger(this.currentNumber);
-
-		} else {
-
-			//verify that the number only has one decimal character
-			let secondDecimalPosition = this.currentNumber.indexOf(decimalCharacter, (decimalPosition + 1));
-			if (secondDecimalPosition !== -1) {
-				//number has more than one decimal place
-				//todo: handle error
-				return '';
+		if (remainder !== 0) {
+			while ((3 - remainder) > 0) {
+				remainingInteger = '0' + remainingInteger;
+				remainder++;
 			}
-
-			//number has a decimal character
-			//split the number into integer and decimal
-			remainingInteger = this.sanitizeInteger(this.currentNumber.substring(0, decimalPosition));
-
 		}
+
+		let threeDigits = remainingInteger.substring(0, 3);
+		//remove the three digits from the remaining integer
+		if (remainingInteger.length > 3) {
+			remainingInteger = remainingInteger.substring(3);
+		} else {
+			remainingInteger = '';
+		}
+		this.recurseShortScaleIntegerByThreeDigits(threeDigits, remainingInteger);
+
+		return '';
+
+	}
+
+	private recurseShortScaleIntegerByThreeDigits(threeDigits: string, remainingInteger: string) {
+
+		//place holders for words to be added
+		let newWord = '';
+
+		//check if "zero" is possible
+		let allowZero = false;
+		if (remainingInteger === '' && this.newWord.length === 0) {
+			allowZero = true;
+		}
+
+		//calculate the hundreds, tens, and ones of the second 3 digits
+		newWord = this.calculateHundred(threeDigits, allowZero);
+
+		//add exponent
+		if (newWord !== '' && remainingInteger.length > 0) {
+			let singular = false;
+			if (threeDigits === '001') {
+				singular = true;
+				//special case for spanish "uno" becoming un in front of millon, billon, trillon, etc...
+				if (this.numericTypeTranslationWithTables.languageId === 2) {
+					newWord = newWord.substring(0, 2);
+				}
+			}
+			newWord = newWord + ' ' + this.calculateShortScaleExponent(remainingInteger.length, singular);
+		}
+
+		//add new word to new word
+		this.newWord.push(new WordModel({word: newWord, number: threeDigits}));
+
+		//while the number of digits of remaining integers is greater than or equeal to 3 keep recursing
+		if (remainingInteger.length > 3) {
+			//pass in the first 3 digits from the remaining integer
+				//and the remaining integer minus those 3 digits
+			this.recurseShortScaleIntegerByThreeDigits(remainingInteger.substring(0, 3), remainingInteger.substring(3));
+		} else if (remainingInteger.length === 3) {
+			//pass in the last group of 3 digits
+				//and no remaining integer
+			this.recurseShortScaleIntegerByThreeDigits(remainingInteger, '');
+		}
+
+	}
+
+	private calculateShortScaleExponent(exponent: number, singular:boolean) {
+
+		//look for an exact match
+		let result = this.numericTypeTranslationWithTables.shortScaleNumbers.filter((shortScaleNumber: ShortScaleNumberModel) => {
+			return shortScaleNumber.exponent === exponent;
+		});
+
+		if (result.length === 1) {
+			//an exact match was found, so return that
+			if (singular) {
+				return result[0].singular;
+			} else {
+				return result[0].plural;
+			}
+		}
+
+		return '';
+
+	}
+
+	private calculateLongScaleNumber(): string {
+
+		//place holder for remaining integer
+		let remainingInteger = getInteger(this.currentNumber, this.numericTypeTranslationWithTables.languageId);
 
 		//calculate how many 0's to add to the front of the number so that the number of digits is divisible by 6
 		let remainder = remainingInteger.length % 6;
@@ -98,35 +159,13 @@ export default class numberToWordConverter {
 		} else {
 			remainingInteger = '';
 		}
-		this.recurseLargeScaleIntegerBySixDigits(sixDigits, remainingInteger);
+		this.recurseLongScaleIntegerBySixDigits(sixDigits, remainingInteger);
 
 		return '';
 
 	}
 
-	//TODO: move this to number validation
-	private sanitizeInteger(integer: string): string {
-		//remove any characters that are not digits, 0-9, from the integer
-		integer = integer.replace(/\D/g, '');
-		//todo:
-		//remove left most 0's,
-			//but not the final 0 if the number is 0
-		return integer;
-	}
-
-	//TODO: move this to number validation
-	/*
-	private sanitizeDecimal(decimal: string): string {
-		//remove any characters that are not digits, 0-9, from the decimal
-		decimal = decimal.replace(/\D/g, '');
-		//todo:
-		//remove right most 0's,
-			//but not the final 0 if the number is .0???
-		return decimal;
-	}
-	*/
-
-	private recurseLargeScaleIntegerBySixDigits(sixDigits: string, remainingInteger: string) {
+	private recurseLongScaleIntegerBySixDigits(sixDigits: string, remainingInteger: string) {
 
 		//place holders for words to be added
 		let firstNewWord = '';
@@ -141,16 +180,25 @@ export default class numberToWordConverter {
 
 		//add thousands
 		if (firstNewWord !== '') {
-			//special case for spanish "uno" being removed in front of mil
-			if (firstThreeDigits === '001') {
-				firstNewWord = '';
+			if (this.numericTypeTranslationWithTables.languageId === 1) {
+				//special case for English thousand only having one unique name
+				firstNewWord = firstNewWord + ' ' + this.calculateThousand('1000');
+			} else if (this.numericTypeTranslationWithTables.languageId === 2) {
+				//special case for spanish "uno" being removed in front of mil
+				if (firstThreeDigits === '001') {
+					firstNewWord = '';
+				}
+				//special case for spanish thousand only having one unique name
+				firstNewWord = firstNewWord + ' ' + this.calculateThousand('1000');
+			} else {
+				//generic case if each thousand had a distinct name
+				firstNewWord = firstNewWord + ' ' + this.calculateThousand(firstNewWord[2] + '000');
 			}
-			firstNewWord = firstNewWord + ' ' + this.calculateThousand('1000');
 		}
 
 		//check if "zero" is possible
 		let allowZero = false;
-		if (remainingInteger === '' && this.newWord === [] && firstNewWord === '') {
+		if (remainingInteger === '' && this.newWord.length === 0 && firstNewWord === '') {
 			allowZero = true;
 		}
 
@@ -160,12 +208,14 @@ export default class numberToWordConverter {
 		//add exponent
 		if ((firstNewWord !== '' || secondNewWord !== '') && remainingInteger.length > 0) {
 			let singular = false;
-			//special case for spanish "uno" becoming un in front of millon, billon, trillon, etc...
 			if (firstNewWord === '' && secondThreeDigits === '001') {
-				secondNewWord = secondNewWord.substring(0, 2);
 				singular = true;
+				//special case for spanish "uno" becoming un in front of millon, billon, trillon, etc...
+				if (this.numericTypeTranslationWithTables.languageId === 2) {
+					secondNewWord = secondNewWord.substring(0, 2);
+				}
 			}
-			secondNewWord = secondNewWord + ' ' + this.calculateExponent(remainingInteger.length, singular);
+			secondNewWord = secondNewWord + ' ' + this.calculateLongScaleExponent(remainingInteger.length, singular);
 		}
 
 		//add new word to new word
@@ -184,20 +234,20 @@ export default class numberToWordConverter {
 		if (remainingInteger.length > 6) {
 			//pass in the first 6 digits from the remaining integer
 				//and the remaining integer minus those 6 digits
-			this.recurseLargeScaleIntegerBySixDigits(remainingInteger.substring(0, 6), remainingInteger.substring(6));
+			this.recurseLongScaleIntegerBySixDigits(remainingInteger.substring(0, 6), remainingInteger.substring(6));
 		} else if (remainingInteger.length === 6) {
 			//pass in the last group of 6 digits
 				//and no remaining integer
-			this.recurseLargeScaleIntegerBySixDigits(remainingInteger, '');
+			this.recurseLongScaleIntegerBySixDigits(remainingInteger, '');
 		}
 
 	}
 
-	private calculateExponent(exponent: number, singular:boolean) {
+	private calculateLongScaleExponent(exponent: number, singular:boolean) {
 
 		//look for an exact match
-		let result = this.numericTypeTranslationWithTables.largeScaleNumbers.filter((largeScaleNumber: LargeScaleNumberModel) => {
-			return largeScaleNumber.exponent === exponent;
+		let result = this.numericTypeTranslationWithTables.longScaleNumbers.filter((longScaleNumber: LongScaleNumberModel) => {
+			return longScaleNumber.exponent === exponent;
 		});
 
 		if (result.length === 1) {
@@ -311,7 +361,15 @@ export default class numberToWordConverter {
 				return '';
 			}
 			if (addSpaceToFront) {
-				return ' y ' + result[0].singular;
+				if (this.numericTypeTranslationWithTables.languageId === 1) {
+					//special case for english numbers hyphenating between tens and ones
+					return '-' + result[0].singular;
+				} else if (this.numericTypeTranslationWithTables.languageId === 2) {
+					//special case for spanish numbers adding "y" between tens and ones
+					return ' y ' + result[0].singular;
+				} else {
+					return ' ' + result[0].singular;
+				}
 			} else {
 				return result[0].singular;
 			}

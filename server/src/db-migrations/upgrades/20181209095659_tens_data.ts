@@ -2,6 +2,24 @@ import * as Knex from "knex";
 
 exports.up = function (knex: Knex): Promise<any> {
 	return Promise.resolve(knex("tens").insert([
+		{language_id: 1, digits: 10, singular: "ten", plural: "ten"},
+		{language_id: 1, digits: 11, singular: "eleven", plural: "eleven"},
+		{language_id: 1, digits: 12, singular: "twelve", plural: "twelve"},
+		{language_id: 1, digits: 13, singular: "thirteen", plural: "thirteen"},
+		{language_id: 1, digits: 14, singular: "fourteen", plural: "fourteen"},
+		{language_id: 1, digits: 15, singular: "fifteen", plural: "fifteen"},
+		{language_id: 1, digits: 16, singular: "sixteen", plural: "sixteen"},
+		{language_id: 1, digits: 17, singular: "seventeen", plural: "seventeen"},
+		{language_id: 1, digits: 18, singular: "eighteen", plural: "eighteen"},
+		{language_id: 1, digits: 19, singular: "nineteen", plural: "nineteen"},
+		{language_id: 1, digits: 20, singular: "twenty", plural: "twenty"},
+		{language_id: 1, digits: 30, singular: "thirty", plural: "thirty"},
+		{language_id: 1, digits: 40, singular: "forty", plural: "forty"},
+		{language_id: 1, digits: 50, singular: "fifty", plural: "fifty"},
+		{language_id: 1, digits: 60, singular: "sixty", plural: "sixty"},
+		{language_id: 1, digits: 70, singular: "seventy", plural: "seventy"},
+		{language_id: 1, digits: 80, singular: "eighty", plural: "eighty"},
+		{language_id: 1, digits: 90, singular: "ninety", plural: "ninety"},
 		{language_id: 2, digits: 10, singular: "diez", plural: "diez"},
 		{language_id: 2, digits: 11, singular: "once", plural: "once"},
 		{language_id: 2, digits: 12, singular: "doce", plural: "doce"},
@@ -35,7 +53,7 @@ exports.up = function (knex: Knex): Promise<any> {
 exports.down = function (knex: Knex): Promise<any> {
 	return Promise.resolve(
 		knex("tens")
-		.where("language_id", 2)
+		.whereIn("language_id", [1, 2])
 		.whereIn("digits", [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 40, 50, 60, 70, 80, 90])
 		.del()
 	);

@@ -5,7 +5,8 @@ import OneModel, {IOneModelProps} from "../model/one-model";
 import TenModel, {ITenModelProps} from "../model/ten-model";
 import HundredModel, {IHundredModelProps} from "../model/hundred-model";
 import ThousandModel, {IThousandModelProps} from "../model/thousand-model";
-import LargeScaleNumberModel, {ILargeScaleNumberModelProps} from "../model/large-scale-number-model";
+import ShortScaleNumberModel, {IShortScaleNumberModelProps} from "../model/short-scale-number-model";
+import LongScaleNumberModel, {ILongScaleNumberModelProps} from "../model/long-scale-number-model";
 
 configure({
 	enforceActions: true, // don't allow editing of state outside of mobx actions
@@ -53,44 +54,64 @@ export class NumericTypeTranslationStore {
 				this.numericTypeTranslationWithTables.clear();
 
 				//add ones
-				numericTypeTranslationData.onesModels = Array<OneModel>();
-				numericTypeTranslationData.ones.forEach((one: IOneModelProps) => {
-					numericTypeTranslationData.onesModels.push(new OneModel(one));
-				});
-				delete numericTypeTranslationData.ones;
-				numericTypeTranslationData.ones = JSON.parse(JSON.stringify(numericTypeTranslationData.onesModels));
+				if (numericTypeTranslationData.hasOwnProperty('ones')) {
+					numericTypeTranslationData.onesModels = Array<OneModel>();
+					numericTypeTranslationData.ones.forEach((one: IOneModelProps) => {
+						numericTypeTranslationData.onesModels.push(new OneModel(one));
+					});
+					delete numericTypeTranslationData.ones;
+					numericTypeTranslationData.ones = JSON.parse(JSON.stringify(numericTypeTranslationData.onesModels));
+				}
 
 				//add tens
-				numericTypeTranslationData.tensModels = Array<TenModel>();
-				numericTypeTranslationData.tens.forEach((ten: ITenModelProps) => {
-					numericTypeTranslationData.tensModels.push(new TenModel(ten));
-				});
-				delete numericTypeTranslationData.tens;
-				numericTypeTranslationData.tens = JSON.parse(JSON.stringify(numericTypeTranslationData.tensModels));
+				if (numericTypeTranslationData.hasOwnProperty('tens')) {
+					numericTypeTranslationData.tensModels = Array<TenModel>();
+					numericTypeTranslationData.tens.forEach((ten: ITenModelProps) => {
+						numericTypeTranslationData.tensModels.push(new TenModel(ten));
+					});
+					delete numericTypeTranslationData.tens;
+					numericTypeTranslationData.tens = JSON.parse(JSON.stringify(numericTypeTranslationData.tensModels));
+				}
 
 				//add hundreds
-				numericTypeTranslationData.hundredsModels = Array<HundredModel>();
-				numericTypeTranslationData.hundreds.forEach((hundred: IHundredModelProps) => {
-					numericTypeTranslationData.hundredsModels.push(new HundredModel(hundred));
-				});
-				delete numericTypeTranslationData.hundreds;
-				numericTypeTranslationData.hundreds = JSON.parse(JSON.stringify(numericTypeTranslationData.hundredsModels));
+				if (numericTypeTranslationData.hasOwnProperty('hundreds')) {
+					numericTypeTranslationData.hundredsModels = Array<HundredModel>();
+					numericTypeTranslationData.hundreds.forEach((hundred: IHundredModelProps) => {
+						numericTypeTranslationData.hundredsModels.push(new HundredModel(hundred));
+					});
+					delete numericTypeTranslationData.hundreds;
+					numericTypeTranslationData.hundreds = JSON.parse(JSON.stringify(numericTypeTranslationData.hundredsModels));
+				}
 
 				//add thousands
-				numericTypeTranslationData.thousandsModels = Array<ThousandModel>();
-				numericTypeTranslationData.thousands.forEach((thousand: IThousandModelProps) => {
-					numericTypeTranslationData.thousandsModels.push(new ThousandModel(thousand));
-				});
-				delete numericTypeTranslationData.thousands;
-				numericTypeTranslationData.thousands = JSON.parse(JSON.stringify(numericTypeTranslationData.thousandsModels));
+				if (numericTypeTranslationData.hasOwnProperty('thousands')) {
+					numericTypeTranslationData.thousandsModels = Array<ThousandModel>();
+					numericTypeTranslationData.thousands.forEach((thousand: IThousandModelProps) => {
+						numericTypeTranslationData.thousandsModels.push(new ThousandModel(thousand));
+					});
+					delete numericTypeTranslationData.thousands;
+					numericTypeTranslationData.thousands = JSON.parse(JSON.stringify(numericTypeTranslationData.thousandsModels));
+				}
 
-				//add largeScaleNumbers
-				numericTypeTranslationData.largeScaleNumbersModels = Array<LargeScaleNumberModel>();
-				numericTypeTranslationData.large_scale_numbers.forEach((large_scale_number: ILargeScaleNumberModelProps) => {
-					numericTypeTranslationData.largeScaleNumbersModels.push(new LargeScaleNumberModel(large_scale_number));
-				});
-				delete numericTypeTranslationData.large_scale_numbers;
-				numericTypeTranslationData.large_scale_numbers = JSON.parse(JSON.stringify(numericTypeTranslationData.largeScaleNumbersModels));
+				//add shortScaleNumbers
+				if (numericTypeTranslationData.hasOwnProperty('short_scale_numbers')) {
+					numericTypeTranslationData.shortScaleNumbersModels = Array<ShortScaleNumberModel>();
+					numericTypeTranslationData.short_scale_numbers.forEach((short_scale_number: IShortScaleNumberModelProps) => {
+						numericTypeTranslationData.shortScaleNumbersModels.push(new ShortScaleNumberModel(short_scale_number));
+					});
+					delete numericTypeTranslationData.short_scale_numbers;
+					numericTypeTranslationData.short_scale_numbers = JSON.parse(JSON.stringify(numericTypeTranslationData.shortScaleNumbersModels));
+				}
+
+				//add longScaleNumbers
+				if (numericTypeTranslationData.hasOwnProperty('long_scale_numbers')) {
+					numericTypeTranslationData.longScaleNumbersModels = Array<LongScaleNumberModel>();
+					numericTypeTranslationData.long_scale_numbers.forEach((long_scale_number: ILongScaleNumberModelProps) => {
+						numericTypeTranslationData.longScaleNumbersModels.push(new LongScaleNumberModel(long_scale_number));
+					});
+					delete numericTypeTranslationData.long_scale_numbers;
+					numericTypeTranslationData.long_scale_numbers = JSON.parse(JSON.stringify(numericTypeTranslationData.longScaleNumbersModels));
+				}
 
 				//set numericTypeTranslationWithTables
 				this.setNumericTypeTranslationWithTables(new NumericTypeTranslationModel(numericTypeTranslationData));

@@ -3,7 +3,8 @@ import OneModel from "./one-model";
 import TenModel from "./ten-model";
 import HundredModel from "./hundred-model";
 import ThousandModel from "./thousand-model";
-import LargeScaleNumberModel from "./large-scale-number-model";
+import ShortScaleNumberModel from "./short-scale-number-model";
+import LongScaleNumberModel from "./long-scale-number-model";
 
 export interface INumericTypeTranslationModelProps {
 	numeric_type_id?: number;
@@ -16,7 +17,8 @@ export interface INumericTypeTranslationModelProps {
 	tens?: Array<TenModel>;
 	hundreds?: Array<HundredModel>;
 	thousands?: Array<ThousandModel>;
-	large_scale_numbers?: Array<LargeScaleNumberModel>;
+	short_scale_numbers?: Array<ShortScaleNumberModel>;
+	long_scale_numbers?: Array<LongScaleNumberModel>;
 }
 
 export default class NumericTypeTranslationModel {
@@ -31,7 +33,8 @@ export default class NumericTypeTranslationModel {
 	@observable public tens: Array<TenModel>;
 	@observable public hundreds: Array<HundredModel>;
 	@observable public thousands: Array<ThousandModel>;
-	@observable public largeScaleNumbers: Array<LargeScaleNumberModel>;
+	@observable public shortScaleNumbers: Array<ShortScaleNumberModel>;
+	@observable public longScaleNumbers: Array<LongScaleNumberModel>;
 
 	constructor(props: INumericTypeTranslationModelProps) {
 		this.setProperties(props);
@@ -49,7 +52,8 @@ export default class NumericTypeTranslationModel {
 			if (props.tens) { this.tens = props.tens; }
 			if (props.hundreds) { this.hundreds = props.hundreds; }
 			if (props.thousands) { this.thousands = props.thousands; }
-			if (props.large_scale_numbers) { this.largeScaleNumbers = props.large_scale_numbers; }
+			if (props.short_scale_numbers) { this.shortScaleNumbers = props.short_scale_numbers; }
+			if (props.long_scale_numbers) { this.longScaleNumbers = props.long_scale_numbers; }
 		});
 	}
 
