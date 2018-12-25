@@ -5,7 +5,7 @@ export function validateNumber(currentNumber: string, numericTypeId: number, lan
 		case 2: //long scale numbers
 			return validateLongScaleNumber(currentNumber, languageId);
 		default:
-			return 'Unable to find numeric type id: ' + numericTypeId;
+			throw 'Unable to find numeric type id: ' + numericTypeId;
 	}
 }
 
@@ -18,7 +18,6 @@ function validateShortScaleNumber(currentNumber: string, languageId: number): st
 	return numberError;
 }
 
-//TODO: CALCULATE MAX SIZE OF SHORT SCALE NUMBERS AND DECREASE 41 AND 123
 function getShortScaleRegex(languageId: number): string {
 	switch (languageId) {
 		case 1:

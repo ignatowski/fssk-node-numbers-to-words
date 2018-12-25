@@ -13,48 +13,26 @@ export default class NumberInputComponent extends React.Component<any> {
 	}
 
 	componentDidUpdate() {
-		//console.log('focus1');
+		//when the value of the text input is updated and formatted
+			//update the cursor position so it doesn't jump to the end
 		if (this.textInput.current) {
-			//console.log('focus2');
-			//this.textInput.current.focus();
 			this.textInput.current.selectionStart = this.props.currentNumberInputComponentCursor;
 			this.textInput.current.selectionEnd = this.props.currentNumberInputComponentCursor;
 		}
-		
-		//this.refs.textInput.selectionEnd = this.props.currentNumberInputComponentCursor;
 	}
 
 	@autobind
 	private handleChange(e: any) {
-		//console.log(e);
-		//console.log(e.target.value);
-		//console.log(e.target.selectionStart);
-		//const caret = e.target.selectionStart
-		//const element = e.target
-		//window.requestAnimationFrame(() => {
-		  //element.selectionStart = caret
-		  //element.selectionEnd = caret
-		//})
-
 		let newNumber = e.target.value;
 		let newNumberInputComponentCursor = e.target.selectionStart;
-		//if they pressed anything other than a number or delete don't change the cursor
-		//check if the current number of digits matches the new number of digits
-		//if it does they haven't deleted or added a digit so cursor position should stay the same
-		//or just move the format number and check if the existing string matches
-		//newNumber = formatNumber()
 		this.props.onChange(newNumber, newNumberInputComponentCursor);
 	}
 
-	//@autobind
-	//private handleFocus(e: any) {
-		//console.log('handlefocus');
-		//e.target.selectionStart = this.props.currentNumberInputComponentCursor;
-		//e.target.selectionEnd = this.props.currentNumberInputComponentCursor;
-	//}
-
 	public render() {
 
+		//max length of the input field is determined by
+			//the largest available exponent in the database
+			//plus the number of three digit separators (commas or periods)
 		let maxLength = 0;
 		if (this.props.numericTypeTranslationWithTables.numericTypeId === 1) {
 			maxLength = 135;
@@ -71,14 +49,9 @@ export default class NumberInputComponent extends React.Component<any> {
 					onChange={this.handleChange}
 					autoComplete="off"
 					maxLength={maxLength}
-					//ref="input"
-					autoFocus={this.props.forceNumberInputComponentUpdate}
-					//onFocus={this.handleFocus}
-					//ref={(input) => { this.textInput = input; }}
+					autoFocus
 					ref={this.textInput}
-					//onFocus={(e) => {
-						//e.target.selectionStart = this.props.currentNumberInputComponentCursor;
-					//}}
+					className={"fake-class-name-to-force-update-" + this.props.forceNumberInputComponentUpdate}
 				/>
 				{/*
 				We need the non-breaking space in the error field to reserve the vertical space for the error message

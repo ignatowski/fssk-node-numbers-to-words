@@ -5,7 +5,7 @@ export function formatNumber(currentNumber: string, numericTypeId: number, langu
 		case 2: //long scale numbers
 			return formatLongScaleNumber(currentNumber, languageId);
 		default:
-			return 'Unable to find numeric type id: ' + numericTypeId;
+			throw 'Unable to find numeric type id: ' + numericTypeId;
 	}
 }
 
@@ -54,8 +54,8 @@ export function getInteger(currentNumber: string, languageId: number): string {
 	} else {
 		//number has a decimal character
 		//split the number into integer and decimal
-		//integer = currentNumber.substring(0, decimalPosition);
 		//todo: not allowing decimals at the moment
+		//integer = currentNumber.substring(0, decimalPosition);
 		integer = currentNumber;
 
 	}

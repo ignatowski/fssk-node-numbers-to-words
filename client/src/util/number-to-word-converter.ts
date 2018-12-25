@@ -23,9 +23,6 @@ export default class numberToWordConverter {
 
 	public convertNumberToWord(): Array<WordModel> {
 
-		//todo: validate the number? it's already validated before this class is called?
-		//todo: make sure the number has at least one digit?
-		//todo: does this validation handle empty string and string without digits?
 		let $numberError = validateNumber(this.currentNumber, this.numericTypeTranslationWithTables.numericTypeId, this.numericTypeTranslationWithTables.languageId);
 		if ($numberError !== '') {
 			return this.newWord;
@@ -62,12 +59,14 @@ export default class numberToWordConverter {
 		}
 
 		let threeDigits = remainingInteger.substring(0, 3);
+
 		//remove the three digits from the remaining integer
 		if (remainingInteger.length > 3) {
 			remainingInteger = remainingInteger.substring(3);
 		} else {
 			remainingInteger = '';
 		}
+
 		this.recurseShortScaleIntegerByThreeDigits(threeDigits, remainingInteger);
 
 		return '';
@@ -376,9 +375,8 @@ export default class numberToWordConverter {
 		}
 
 		//a match was not found, return an empty string
-		//should never get here
-		//todo: throw an exception
-		return '';
+		//should never get here, throw an exception
+		throw `No value found for one's digit. oneDigit: ${oneDigit}, allowZero: ${allowZero}, addSpaceToFront: ${addSpaceToFront}, languageId: ${this.numericTypeTranslationWithTables.languageId}`;
 
 	}
 

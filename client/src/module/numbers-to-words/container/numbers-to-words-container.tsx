@@ -34,7 +34,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 		LanguageStore
 			.loadLanguages()
 			.then(() => {
-				this.setLanguage(LanguageStore.languages[1]);
+				this.setLanguage(LanguageStore.languages[0]);
 			});
 	}
 
@@ -123,113 +123,50 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 
 	@autobind
 	private setCurrentNumber(newNumber: string, newNumberInputComponentCursor: number) {
-		//console.log(newNumberInputComponentCursor);
-		//e.target.selectionStart = this.state.currentNumberInputComponentCursor;
-		//e.target.selectionEnd = this.state.currentNumberInputComponentCursor;
+
+		//this is the original length of the user input
+			//without invalid characters removed
+			//and without three digit characters (commas and periods) added/removed 
 		let newNumberLength = newNumber.length;
-		//console.log(newNumberLength);
+
+		//remove invalid characters from the user input
+			//and add/remove three digit characters (commas and periods)
 		newNumber = formatNumber(newNumber, this.state.numericTypeTranslationWithTables.numericTypeId, this.state.language.id)
-		
-		//let countValidNewNumbers = newNumber.length - this.state.currentNumber.length;
 
-		/*
-		if (countValidNewNumbers === 0) {
+		//lenght of the formatted user input minus the original user input
+		let difference = newNumber.length - newNumberLength;
 
-			//no new numbers added
-
-			let difference = newNumber.length - newNumberLength;
-
-			if (difference === 0) {
-				//no invalid characters were added
-				console.log('case1');
-			} else if (difference > 0) {
-				//three digit separators were removed and added back
-				//increase the cursor by the difference
-				console.log('case2');
-				while (difference > 0) {
-					newNumberInputComponentCursor++;
-					difference--;
-				}
-			} else if (difference < 0) {
-				//invalid characters were added and removed
-				//decrease the cursor by the difference
-				console.log('case3');
-				while (difference < 0) {
-					newNumberInputComponentCursor--;
-					difference++;
-				}
-			}
-*/
-		//} else if (countValidNewNumbers > 0) {
-
-			//new numbers added
-
-			let difference = newNumber.length - newNumberLength;
-
-			if (difference === 0) {
-				//the difference between: 
-					//valid numbers, invalid characters, addition/removal of three digit separaters
-					//is zero
-					//so everything evens out and the cursor is at the correct spot
-				//console.log('case4');
-			} else if (difference > 0) {
-				//three digit separators were added
-				//increase the cursor by the difference
-				//console.log('case5');
-				while (difference > 0) {
-					newNumberInputComponentCursor++;
-					difference--;
-				}
-			} else if (difference < 0) {
-				//invalid characters were removed and/or three digit separaters were removed
-				//special case to make sure cursor position is zero or greater
-				//decrease the cursor by the difference
-				//console.log('case6');
-				while (difference < 0 && newNumberInputComponentCursor > 0) {
-					newNumberInputComponentCursor--;
-					difference++;
-				}
-			}
-
-		//}
-		
-		/*
-		//if the number hasn't changed don't change the cursor position
-		if (newNumber === this.state.currentNumber) {
-			//newNumberInputComponentCursor = this.state.currentNumberInputComponentCursor;
-			if (newNumberLength > this.state.currentNumber.length) {
-				//a character was added that wasn't allowed, move the cursor back one
-				newNumberInputComponentCursor--;
-			}
-			if (newNumberLength < this.state.currentNumber.length) {
-				//a character was deleted that wasn't allowed, move the cursor forward one
+		//modify the position of the cursor as needed
+			//based on:
+				//what the user typed (1 character removed or deleted)
+				//pasted in
+				//selected and pasted over
+				//selected and deleted
+			
+		if (difference === 0) {
+			//the difference between: 
+				//valid numbers, invalid characters, addition/removal of three digit separaters is zero
+				//so everything evens out and the cursor is at the correct spot
+		} else if (difference > 0) {
+			//three digit separators were added
+				//so increase the cursor (move to the right) by the difference
+			while (difference > 0) {
 				newNumberInputComponentCursor++;
+				difference--;
 			}
-			if (newNumberLength === this.state.currentNumber.length) {
-				//a character was deleted that wasn't allowed, move the cursor forward one
-				//newNumberInputComponentCursor++;
-				console.log('user pasted in data???');
-			}
-		} else {
-			//check if the number has grown by more than one character (three digit separator added)
-			//or user pasted in data???
-			if (newNumber.length - this.state.currentNumber.length > 1) {
-				let difference = newNumber.length - newNumberLength;
-				while (difference > 0) {
-					newNumberInputComponentCursor++;
-					difference--;
-				}
-			}
-			//check if the number has shrunk by more than one character (three digit separator removed)
-			if (this.state.currentNumber.length - newNumber.length > 1) {
-				let difference = newNumberLength - newNumber.length;
-				while (difference > 0) {
-					newNumberInputComponentCursor--;
-					difference--;
-				}
+		} else if (difference < 0) {
+			//invalid characters were removed and/or three digit separaters were removed
+				//so decrease the cursor by the difference
+			//special case to make sure cursor position is zero or greater
+			while (difference < 0 && newNumberInputComponentCursor > 0) {
+				newNumberInputComponentCursor--;
+				difference++;
 			}
 		}
-		*/
+
+		//forceNumberInputComponentUpdate is a boolean that always flips and forces the component to update
+			//this handles the special case where the user pastes the same number(s) over identical number(s)
+			//and prevents the cursor from jumping to the end of the input
 		this.setState(
 			{
 				currentNumber: newNumber,
@@ -240,6 +177,7 @@ export default class NumbersToWordsContainer extends React.Component<{}, INumber
 			},
 			this.setCurrentWord
 		);
+
 	}
 
 	@autobind
