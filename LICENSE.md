@@ -1,6 +1,7 @@
 
 The MIT License (MIT)
 
+Copyright (c) 2018 Simon Ignatowski
 Copyright (c) 2017 Earthling Interactive
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -1,3 +1,7 @@
+# FSSK-Node-Numbers-to-Words
+
+Numbers to words is a project which allows input of a number using numeric digits and outputs that number in words. It currently supports output in English and Spanish. It utilizes the FSSK-Node project as a starting point. Details of that project and its frameworks are found below.
+
 # FSSK-Node
 > Full Stack Starter Kit, using NodeJS for server.
 
