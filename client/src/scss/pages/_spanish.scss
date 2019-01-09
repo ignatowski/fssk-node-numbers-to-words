@@ -1,0 +1,174 @@
+//$spanish-flag-red: #AA151B;
+//$spanish-flag-yellow: #F1BF00;
+
+$spanish-flag-red: #AD1519;
+$spanish-flag-yellow: #FABD00;
+
+.language-id-2.numbers-to-words-container {
+	background-color: $spanish-flag-red;
+}
+
+.language-id-2 {
+
+	a, a:hover {
+		color: $spanish-flag-red;
+	}
+
+	.language-component {
+
+		color: white;
+		@media (min-width: 0px) {
+			height: 30px;
+			text-align: center;
+			background-color: $spanish-flag-yellow;
+			padding-top: 10px;
+			color: black;
+		}
+		@media (min-width: 576px) {
+			max-width: 540px;
+			margin-right: auto;
+			margin-left: auto;
+			color: black;
+		}
+		@media (min-width: 768px) {
+			height: 0px;
+			text-align: inherit;
+			background-color: none;
+			padding-top: 0px;
+			max-width: none;
+			margin-right: none;
+			margin-left: none;
+			color: white;
+		}
+
+		p {
+			@media (min-width: 0px) {
+				//float: right;
+				//margin: 5px 5px 0px 0px;
+			}
+			@media (min-width: 768px) {
+				float: right;
+				margin: 5px 5px 0px 0px;
+			}
+		}
+	
+		select {
+			margin-left: 5px;
+			border: none;
+			@media (min-width: 0px) {
+				outline-color: $spanish-flag-yellow;
+				background-color: $spanish-flag-yellow;
+				color: black;
+			}
+			@media (min-width: 768px) {
+				outline-color: $spanish-flag-red;
+				background-color: $spanish-flag-red;
+				color: white;
+			}
+		}
+
+		//select:active, select:hover, select:focus {
+			//outline-color: $spanish-flag-yellow;
+			//border: 1px solid $spanish-flag-yellow;
+		//}
+
+	}
+
+	
+
+	.container {
+
+		background-color: $spanish-flag-yellow;
+		text-align: center;
+		min-height: 100vh;
+		@media (min-width: 1200px) {
+			max-width: 50%;
+		}
+		@media (min-width: 992px) {
+			max-width: 50%;
+		}
+		@media (min-width: 768px) {
+			max-width: 50%;
+		}
+		//@media (min-width: 576px) {
+			//max-width: 50%;
+		//}
+
+		h1 {
+			padding: 10px 0px;
+			font-size: 3rem;
+		}
+
+	}
+
+	.numeric-type-translation-component {
+
+		span {
+			padding: 13px 2px 9px 2px;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 1%);
+			span {
+				padding: 11px 2px 9px 2px;
+				background-color: lighten($color: $spanish-flag-yellow, $amount: 2%);
+				span{
+					padding: 9px 2px 7px 2px;
+					background-color: lighten($color: $spanish-flag-yellow, $amount: 3%);
+					span {
+						padding: 7px 2px 5px 2px;
+						background-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+					}
+				}
+			}
+		}
+
+		select {
+			margin-bottom: 10px;
+			font-size: 1.2rem;
+			outline-color: none;
+			border: none;
+			//min-width: 30%;
+			//text-align: center;
+			background-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+		}
+
+		select:active, select:hover, select:focus {
+			outline-color: lighten($color: $spanish-flag-yellow, $amount: 4%);
+			//border: 1px solid $spanish-flag-red;
+		}
+
+		//option, option:hover, option:focus, option:active {
+			//background-color: $spanish-flag-red;
+			//border: 1px solid $spanish-flag-red;
+		//}
+
+		.description {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+	}
+
+	.number-input-component {
+
+		input {
+			width: 80%;
+			text-align: center;
+			font-size: 1.5rem;
+		}
+
+		input:active, input:hover, input:focus {
+			outline-color: $spanish-flag-red;
+			//border: 1px solid $spanish-flag-red;
+		}
+
+		.dsk-Admin-form__error {
+			color: $spanish-flag-red;
+		}
+
+	}
+
+	.word-output-component {
+		padding-bottom: 15px;
+	}
+
+}

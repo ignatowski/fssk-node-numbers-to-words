@@ -18,6 +18,7 @@ interface IFormInputProps {
 	autoFocus?: boolean;
 	size?: number;
 	maxLength?: number;
+	autoComplete?: string;
 }
 
 const getFormInputClasses = (fieldsetClass: string, error: string) => classNames(fieldsetClass, {
@@ -41,6 +42,7 @@ const formInput: React.StatelessComponent<IFormInputProps> = ({
 	autoFocus,
 	size,
 	maxLength,
+	autoComplete,
 	}) => {
 
 	// It would be nice to not use a type of any on the event but there doesn't appear to be an easy way to
@@ -65,6 +67,7 @@ const formInput: React.StatelessComponent<IFormInputProps> = ({
 				size={size}
 				autoFocus={autoFocus}
 				maxLength={maxLength}
+				autoComplete={autoComplete}
 			/>
 
 			{/*

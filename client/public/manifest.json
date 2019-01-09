@@ -1,6 +1,6 @@
 {
-  "short_name": "FSSK-node",
-  "name": "FSSK-node Todo APP",
+  "short_name": "FSSK-node-numbers-to-words",
+  "name": "FSSK-node Numbers to Words APP",
   "icons": [
     {
       "src": "favicon.ico",

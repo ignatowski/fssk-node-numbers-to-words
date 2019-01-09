@@ -1,0 +1,179 @@
+//$american-flag-red: #B22234;
+//$american-flag-white: #FFFFFF;
+//$american-flag-blue: #3C3B6E;
+
+$american-flag-red: #9B1C2C;
+$american-flag-white: #E3DED4;
+$american-flag-blue: #33335F;
+
+.language-id-1.numbers-to-words-container {
+	background-color: $american-flag-red;
+}
+
+.language-id-1 {
+
+	color: $american-flag-blue;
+
+	a, a:hover {
+		color: $american-flag-red;
+	}
+
+	.language-component {
+
+		color: $american-flag-white;
+		@media (min-width: 0px) {
+			height: 30px;
+			text-align: center;
+			background-color: $american-flag-white;
+			padding-top: 10px;
+			color: $american-flag-blue;
+		}
+		@media (min-width: 576px) {
+			max-width: 540px;
+			margin-right: auto;
+			margin-left: auto;
+			color: $american-flag-blue;
+		}
+		@media (min-width: 768px) {
+			height: 0px;
+			text-align: inherit;
+			background-color: none;
+			padding-top: 0px;
+			max-width: none;
+			margin-right: none;
+			margin-left: none;
+			color: $american-flag-white;
+		}
+
+		p {
+			@media (min-width: 0px) {
+				//float: right;
+				//margin: 5px 5px 0px 0px;
+			}
+			@media (min-width: 768px) {
+				float: right;
+				margin: 5px 5px 0px 0px;
+			}
+		}
+	
+		select {
+			margin-left: 5px;
+			border: none;
+			
+			@media (min-width: 0px) {
+				outline-color: $american-flag-white;
+				background-color: $american-flag-white;
+				color: $american-flag-blue;
+			}
+			@media (min-width: 768px) {
+				outline-color: $american-flag-red;
+				background-color: $american-flag-red;
+				color: $american-flag-white;
+			}
+		}
+
+		//select:active, select:hover, select:focus {
+			//outline-color: $american-flag-white;
+			//border: 1px solid $american-flag-white;
+		//}
+
+	}
+
+	
+
+	.container {
+
+		background-color: $american-flag-white;
+		text-align: center;
+		min-height: 100vh;
+		@media (min-width: 1200px) {
+			max-width: 50%;
+		}
+		@media (min-width: 992px) {
+			max-width: 50%;
+		}
+		@media (min-width: 768px) {
+			max-width: 50%;
+		}
+		//@media (min-width: 576px) {
+			//max-width: 50%;
+		//}
+
+		h1 {
+			padding: 10px 0px;
+			font-size: 3rem;
+		}
+
+	}
+
+	.numeric-type-translation-component {
+
+		span {
+			padding: 13px 2px 9px 2px;
+			background-color: lighten($color: $american-flag-white, $amount: 1%);
+			span {
+				padding: 11px 2px 9px 2px;
+				background-color: lighten($color: $american-flag-white, $amount: 2%);
+				span{
+					padding: 9px 2px 7px 2px;
+					background-color: lighten($color: $american-flag-white, $amount: 3%);
+					span {
+						padding: 7px 2px 5px 2px;
+						background-color: lighten($color: $american-flag-white, $amount: 4%);
+					}
+				}
+			}
+		}
+
+		select {
+			margin-bottom: 10px;
+			font-size: 1.2rem;
+			outline-color: none;
+			border: none;
+			//min-width: 30%;
+			//text-align: center;
+			background-color: lighten($color: $american-flag-white, $amount: 4%);
+		}
+
+		select:active, select:hover, select:focus {
+			outline-color: lighten($color: $american-flag-white, $amount: 4%);
+			//border: 1px solid $american-flag-red;
+		}
+
+		//option, option:hover, option:focus, option:active {
+			//background-color: $american-flag-red;
+			//border: 1px solid $american-flag-red;
+		//}
+
+		.description {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+	}
+
+	.number-input-component {
+
+		input {
+			width: 80%;
+			text-align: center;
+			font-size: 1.5rem;
+		}
+
+		input:active, input:hover, input:focus {
+			outline-color: $american-flag-red;
+			//border: 1px solid $american-flag-red;
+		}
+
+		.dsk-Admin-form__error {
+			color: $american-flag-red;
+		}
+
+	}
+
+	.word-output-component {
+		padding-bottom: 15px;
+	}
+
+}
